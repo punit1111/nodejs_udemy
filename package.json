@@ -1,0 +1,29 @@
+{
+  "name": "nodejs_udemy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/punit1111/nodejs_udemy.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/punit1111/nodejs_udemy/issues"
+  },
+  "homepage": "https://github.com/punit1111/nodejs_udemy#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "http": "^0.0.1-security",
+    "nodemon": "^3.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.7"
+  }
+}
