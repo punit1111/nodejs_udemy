@@ -2,10 +2,9 @@ const Sequelize = require("sequelize");
 
 const sequelize = require("../utils/database");
 
-const ProductCategory = sequelize.define("product_category", {
+const ProductCategory = sequelize.define("product_categories", {
   id: {
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
+    type: Sequelize.UUID,
     allowNull: false,
     primaryKey: true,
   },
@@ -20,10 +19,6 @@ const ProductCategory = sequelize.define("product_category", {
   image_url: {
     type: Sequelize.STRING,
     allowNull: false,
-  },
-  subcategories: {
-    type: Sequelize.STRING,
-    allowNull: true,
   },
 });
 

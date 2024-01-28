@@ -1,16 +1,13 @@
 const express = require("express");
-//const Product = require("../nodejs_udemy/models/product_model");
+const productRoutes = require("../nodejs_udemy/routes/products_routes");
 
+const sequelize = require("../nodejs_udemy/utils/database");
 
 const path = require("path");
 
 const bodyParser = require("body-parser");
 
-const sequelize = require("../nodejs_udemy/utils/database");
-
 const app = express();
-
-const productRoutes = require("../nodejs_udemy/routes/products_routes");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -21,7 +18,7 @@ app.use(express.json());
 app.use(productRoutes);
 
 sequelize
-  .sync()
+  .sync({ alter: true })
   .then((result) => {
     app.listen(3000);
     console.log(result);

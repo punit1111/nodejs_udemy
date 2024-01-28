@@ -4,36 +4,39 @@ const sequelize = require("../utils/database");
 
 //const ProductCategory = require("../models/product_category_model");
 
-const Product = sequelize.define("product", {
+const Product = sequelize.define("products", {
   id: {
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
+    type: Sequelize.UUID,
     allowNull: false,
     primaryKey: true,
-  },
-  category_id: {
-    type: Sequelize.STRING,
-    allowNull: false,
   },
   title: {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  category_id: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  title: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
   description: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   image_url: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   cover_url: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   price: {
     type: Sequelize.DOUBLE,
-    allowNull: false,
+    allowNull: true,
   },
 });
 
@@ -41,7 +44,7 @@ const Product = sequelize.define("product", {
 //   foreignKey: ProductCategory.category_id,
 // });
 
-module.export = Product;
+module.exports = Product;
 
 // id string [primary key]
 //   category_id string [ref: > ProductCategory.id]
