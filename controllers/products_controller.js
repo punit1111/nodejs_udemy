@@ -9,18 +9,85 @@ exports.getProducts = (req, res, next) => {
   });
 };
 
-exports.addProduct = (req, res, next) => {
+exports.addProduct = async (req, res, next) => {
   console.log(`Adding Products`);
-  Product.create({
-    id: uuid.v4(),
-    title: req.body.title,
-    description: req.body.description,
-    image_url: req.body.image_url,
-    cover_url: req.body.cover_url,
-    price: 0.5,
-  });
-  console.log(`Add Products }`);
-  res.send(req.body);
+  try {
+    await Product.create({
+      id: uuid.v4(),
+      // title: req.body.title,
+      description: req.body.description,
+      image_url: req.body.image_url,
+      cover_url: req.body.cover_url,
+      price: 0.5,
+    }).then((error) => {
+      console.log(`Add Products }`);
+      res.send(error);
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.deleteProduct = async (req, res, next) => {
+  console.log(`Delete Products ${req.params.id}`);
+  try {
+    await Product.findOne({ where: { id: req.params.id } }).then(
+      async (result) => {
+        console.log(`find by id ${result}`);
+        if (result !== null) {
+          await Product.destroy({ where: { id: req.params.id } }).then(
+            (num) => {
+              if (num == 1) {
+                res.send({
+                  message: `Product was deleted successfully`,
+                });
+              } else {
+                res.send({
+                  message: `Cannot delete Product`,
+                });
+              }
+            }
+          );
+        } else {
+          res.send({
+            message: `Product was not found!`,
+          });
+        }
+      }
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.updateProduct = async (req, res, next) => {
+  console.log(`Update Products ${req.params.id}`);
+  try {
+    await Product.findOne({ where: { id: req.params.id } }).then(
+      async (result) => {
+        console.log(`find by id ${result}`);
+        if (result !== null) {
+          await Product.update({ where: { id: req.params.id } }).then((num) => {
+            if (num == 1) {
+              res.send({
+                message: `Product was deleted successfully`,
+              });
+            } else {
+              res.send({
+                message: `Cannot delete Product`,
+              });
+            }
+          });
+        } else {
+          res.send({
+            message: `Product was not found!`,
+          });
+        }
+      }
+    );
+  } catch (error) {
+    throw error;
+  }
 };
 
 exports.getProductCategories = (req, res, next) => {};
