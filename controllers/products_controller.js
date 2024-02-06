@@ -1,12 +1,17 @@
 const Product = require("../models/product_model");
 const ProductCategory = require("../models/product_category_model");
 const uuid = require("uuid");
+const AppError = require("../utils/error_handler");
 
 exports.getProducts = (req, res, next) => {
-  Product.findAll().then((result) => {
-    console.log(`all products ${result}`);
-    res.send(result);
-  });
+  try {
+    Product.findAll().then((result) => {
+      console.log(`all products ${result}`);
+      res.send(result);
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 exports.addProduct = async (req, res, next) => {
@@ -49,14 +54,16 @@ exports.deleteProduct = async (req, res, next) => {
             }
           );
         } else {
-          res.send({
-            message: `Product was not found!`,
-          });
+          console.log("catch error 1");
+          //throw AppError(`Product was not found!`, 400);
+          next(new AppError(`Product was not found!`, 400));
         }
       }
     );
   } catch (error) {
-    throw error;
+    console.log("catch error 2");
+    //throw AppError(`Product was not found!`, 400);
+    next(AppError(`Product was not found!`, 400));
   }
 };
 

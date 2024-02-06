@@ -9,7 +9,6 @@ const sequelize = require("./utils/database");
 const path = require("path");
 
 const bodyParser = require("body-parser");
-const { error } = require("console");
 
 dotenv.config();
 
@@ -23,11 +22,10 @@ app.use(express.json());
 
 app.use(productRoutes);
 
-app.use((error, req, res, next) => {
-  console.log(`global error ${error}`);
+app.use((err, req, res, next) => {
   res
-    .status(error.statusCode)
-    .json({ status: error.statusCode, message: error.message });
+    .status(err.status || 500)
+    .send({ status: err.status, message: err.message, stack: err.stack });
 });
 
 sequelize
