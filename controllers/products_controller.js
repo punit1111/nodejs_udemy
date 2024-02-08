@@ -4,12 +4,13 @@ const uuid = require("uuid");
 const AppError = require("../utils/error_handler");
 
 exports.getProducts = (req, res, next) => {
+  console.log('get product called'); 
   try {
     Product.findAll().then((result) => {
       console.log(`all products ${result}`);
       res.send(result);
     });
-  } catch (error) {
+  } catch (error) { 
     next(error);
   }
 };

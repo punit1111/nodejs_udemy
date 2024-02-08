@@ -4,9 +4,11 @@ const dotenv = require("dotenv");
 
 const productRoutes = require("../nodejs_udemy/routes/products_routes");
 
-const authRoutes = require("../nodejs_udemy/routes/auth");
+const userRoutes = require("../nodejs_udemy/routes/user_routes");
 
-const sequelize = require("./utils/database");
+const authRoutes = require("../nodejs_udemy/routes/auth_routes");
+
+const sequelize = require("./utils/database"); 
 
 const path = require("path");
 
@@ -22,9 +24,11 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.json());
 
-app.use(productRoutes);
+app.use("/product", productRoutes);
 
-app.use("/auth", authRoutes); 
+app.use("/user", userRoutes);
+
+app.use("/auth", authRoutes);   
 
 app.all("*", (req, res, next) => {
   console.log('header result error not found 404');
@@ -37,7 +41,7 @@ app.use((error, req, res, next) => {
   const message = error.message;
   res
     .status(status)
-    .send({ status: status, message: message, stack: error.stack });
+    .json({ status: status, message: message, stack: error.stack });
 });
 
 sequelize

@@ -2,6 +2,8 @@ const Sequelize = require("sequelize");
 
 const sequelize = require("../utils/database");
 
+const Product = require("../models/product_model");
+
 const ProductCategory = sequelize.define("product_categories", {
   id: {
     type: Sequelize.UUID,
@@ -20,6 +22,12 @@ const ProductCategory = sequelize.define("product_categories", {
     type: Sequelize.STRING,
     allowNull: false,
   },
-});
+}); 
+
+// ProductCategory.associate = ()=>{
+//   ProductCategory.hasMany(Product, {
+//     foreignKey: Product.category_id,
+//   });
+// }
 
 module.exports = ProductCategory;

@@ -4,64 +4,87 @@ const bcrypt = require("bcrypt");
 const { error } = require("console");
 const uuid = require("uuid");
 const AppError = require("../utils/error_handler");
-const jwt = require("../jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 exports.signup = (req, res, next) => {
   const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    // const error = new Error("Validation failed:::");
-    // error.statusCode = 422;
-    // error.data = errors.array();
-    // console.log(`error ${error}`);
-    // throw error;
+  if (!errors.isEmpty()) { 
+    const error = new AppError("Validation failed:::");
+    error.statusCode = 422;
+    error.data = errors.array();
+    console.log(`error ${error}`); 
+    //throw error;
     next(error);
   }
   const email = req.body.email;
   const name = req.body.name;
   const password = req.body.password;
-  bcrypt
-    .hash(password, 12)
-    .then((hashedPw) => {
-      const user = User.create({
-        id: uuid.v4(),
-        email: email,
-        password: hashedPw,
-        name: name,
-      });
-      return user;
-    })
-    .then((result) => {
-      console.log(`header result ${result}`);
-      res.status(201).send({ message: "User created!", userId: result.id });
-    })
-    .catch((err) => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
-      }
-      console.log(`header result ${err}`);
-      next(err);
-    });
+
+  User.findOne({ where: { email: email } }).then((userDoc) => { 
+    if (userDoc) {
+      res.status(409).json({ message: "E-mail address already exists!" });
+      //next(new AppError("E-mail address already exists!"));
+      //return Error("E-mail address already exists!");
+      //throw new AppError("E-mail address already exists!");
+    } else {
+      bcrypt
+        .hash(password, 12)
+        .then((hashedPw) => {
+          const user = User.create({
+            id: uuid.v4(),
+            email: email,
+            password: hashedPw,
+            name: name,
+          });
+          return user;
+        })
+        .then((result) => {
+          res.status(201).send({ message: "User created!", userId: result.id });
+        })
+        .catch((err) => {
+          if (!err.statusCode) {
+            err.statusCode = 500;
+          }
+          next(err);
+        });
+    }
+  });
 };
 
 exports.login = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
-
-  User.findOne({ email: email })
+  let loadedUser;
+  User.findOne({ where: { email: email } })
     .then((user) => {
-      if (!user) {
-        next(AppError("User not found", 401));
+      loadedUser = user;
+      if (user !== null) {
+        return bcrypt.compare(password, loadedUser.password);
+      } else {
+        throw new AppError("user not found", 401);  
       }
-      return bcrypt.compare(password, user.password);
-    })
+    }) 
     .then((isEqual) => {
-      if (!isEqual) {
-        next(AppError('Wrong password', 401)); 
-      } 
+      if (isEqual) {
+        const token = jwt.sign(
+          {
+            email: loadedUser.email,
+            userId: loadedUser.id.toString(),
+          },
+          "somesecretkey",
+          { expiresIn: "1h" }
+        );
+        res
+          .status(200)
+          .json({ token: token, user: loadedUser.get({ plain: true }) });
+      } else {
+        res
+        .status(401)
+        .json({ message: "Wrong Password"});   
+      }
     })
-    .catch((error) => {
-      if (!error.statusCode) {
-        error.statusCode = 500;
-      } 
+    .catch((error) => { 
+      //throw error;
+      next(error);  
     });
 };

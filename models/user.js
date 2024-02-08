@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 
 const sequelize = require("../utils/database");
-
+ 
 module.exports = sequelize.define("users", {
   id: {
     type: Sequelize.UUID,
@@ -9,12 +9,17 @@ module.exports = sequelize.define("users", {
     required: true,
     primaryKey: true,
   },
+  phone: {
+    type: Sequelize.STRING,
+    required: true,
+  },
   email: {
     type: Sequelize.STRING,
-    required: true, 
+    required: true,  
+    unique: 'email' 
   },
   password: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING, 
     required: true,
   },
   name: {
@@ -25,5 +30,20 @@ module.exports = sequelize.define("users", {
     type: Sequelize.STRING,  
     default: "Active" 
   },
+  usertype: {
+    type: Sequelize.STRING,
+    default: "Customer"
+  }
   //posts: [{ type: Sequelize.STRING, ref: "Product" }],
 });
+
+
+// Table Users { 
+//   id string [primary key]
+//   phone number 
+//   email varchar
+//   password varchar
+//   fullname varchar
+//   usertype varchar
+//   address_id string [ref: < Address.id]
+// }
