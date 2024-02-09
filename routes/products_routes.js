@@ -5,6 +5,7 @@ const router = express.Router();
 const productController = require("../controllers/products_controller");
  
 router.get("/get-products",  productController.getProducts); 
+
 router.get("/get-product-categories", productController.getProductCategories);
 
 router.delete("/delete-product/:id", productController.deleteProduct);

@@ -1,20 +1,18 @@
-const Sequelize = require("sequelize");
+const DataTypes = require("sequelize").DataTypes;
 
 const sequelize = require("../utils/database");
 
 const brand = sequelize.define({
   id: {
-    type: Sequelize.UUID,
+    type: DataTypes.UUID,
     primaryKey: true,
   },
   brand_name: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING, 
   },
   model_name: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
   },
-
 });
 
-
-module.exports = brand;   
+module.exports = brand;

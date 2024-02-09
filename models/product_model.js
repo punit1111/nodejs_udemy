@@ -1,65 +1,66 @@
-const Sequelize = require("sequelize");
+const DataTypes = require("sequelize").DataTypes;
 
 const sequelize = require("../utils/database");
 
 const ProductCategory = require("../models/product_category_model");
 
-const Product = sequelize.define("products", {
+const Product = sequelize.define("products", { 
   id: {
-    type: Sequelize.UUID,
+    type: DataTypes.UUID,
+    primaryKey: true, 
     allowNull: false,
-    primaryKey: true,
+    defaultValue: DataTypes.UUIDV4
   },
   category_id: {
-    type: Sequelize.UUID, 
+    type: DataTypes.UUID,
     allowNull: true,
   },
   seller_id: {
-    type: Sequelize.UUID,
+    type: DataTypes.UUID,
     allowNull: true,
   },
   title: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   description: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: true,
   },
   image_url: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: true,
   },
   cover_url: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: true,
   },
   price: {
-    type: Sequelize.DOUBLE,
+    type: DataTypes.DOUBLE,
     allowNull: true,
   },
   highlights: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
+    type: DataTypes.JSON,
     allowNull: true,
   },
   is_favourite: {
-    type: Sequelize.BOOLEAN,
+    type: DataTypes.BOOLEAN,
     allowNull: true,
   },
   is_available: {
-    type: Sequelize.BOOLEAN,
+    type: DataTypes.BOOLEAN,
     allowNull: true,
   },
   is_deliverable: {
-    type: Sequelize.BOOLEAN,
+    type: DataTypes.BOOLEAN,
     allowNull: true,
   },
   is_deleted: {
-    type: Sequelize.BOOLEAN,
+    type: DataTypes.BOOLEAN,
     allowNull: true,
   },
   is_liked: {
-    type: Sequelize.BOOLEAN,
+    type: DataTypes.BOOLEAN,
     allowNull: true,
   },
 });

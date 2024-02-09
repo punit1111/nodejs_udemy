@@ -1,46 +1,56 @@
-const Sequelize = require("sequelize");
+const DataTypes = require("sequelize").DataTypes;
 
 const sequelize = require("../utils/database");
- 
+
 module.exports = sequelize.define("users", {
   id: {
-    type: Sequelize.UUID,
+    type: DataTypes.UUID,
     //    allowNull: false,
     required: true,
-    primaryKey: true,
+    primaryKey: true, 
+    defaultValue: DataTypes.UUIDV4  
   },
   phone: {
-    type: Sequelize.STRING,
-    required: true,
-  },
+    type: DataTypes.STRING, 
+    required: true, 
+  }, 
   email: {
-    type: Sequelize.STRING,
-    required: true,  
-    unique: 'email' 
+    type: DataTypes.STRING,
+    required: true,
+    unique: "email",
   },
   password: {
-    type: Sequelize.STRING, 
+    type: DataTypes.STRING,
     required: true,
   },
   name: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     required: true,
   },
   status: {
-    type: Sequelize.STRING,  
-    default: "Active" 
+    type: DataTypes.ENUM,
+    defaultValue: "active",
+    values: ['active', 'pending', 'deleted'], 
   },
   usertype: {
-    type: Sequelize.STRING,
-    default: "Customer"
-  }
-  //posts: [{ type: Sequelize.STRING, ref: "Product" }],
+    type: DataTypes.ENUM,
+    defaultValue: "active",
+    values: ['active', 'pending', 'deleted'], 
+  },
+  addres: {
+    type: DataTypes.JSON,
+    default: {},
+  },
+  course_range: {
+    type: DataTypes.JSON, 
+    default: {},
+  },
+  //posts: [{ type: Sequelize.STRING, ref: "Product" }], 
 });
 
-
-// Table Users { 
+// Table Users {
 //   id string [primary key]
-//   phone number 
+//   phone number
 //   email varchar
 //   password varchar
 //   fullname varchar

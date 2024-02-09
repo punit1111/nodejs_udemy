@@ -31,7 +31,7 @@ exports.signup = (req, res, next) => {
         .hash(password, 12)
         .then((hashedPw) => {
           const user = User.create({
-            id: uuid.v4(),
+           // id: uuid.v4(),
             email: email,
             password: hashedPw,
             name: name,

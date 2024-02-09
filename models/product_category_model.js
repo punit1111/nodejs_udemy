@@ -1,4 +1,4 @@
-const Sequelize = require("sequelize");
+const DataTypes = require("sequelize").DataTypes;
 
 const sequelize = require("../utils/database");
 
@@ -6,20 +6,20 @@ const Product = require("../models/product_model");
 
 const ProductCategory = sequelize.define("product_categories", {
   id: {
-    type: Sequelize.UUID,
+    type: DataTypes.UUID,
     allowNull: false,
-    primaryKey: true,
+    primaryKey: true, 
   },
   name: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   description: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   image_url: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: false,
   },
 }); 
@@ -31,3 +31,12 @@ const ProductCategory = sequelize.define("product_categories", {
 // }
 
 module.exports = ProductCategory;
+
+
+// Table ProductCategory {
+//   id string [primary key]
+//   name varchar
+//   description varchar
+//   image_url varchar
+//   subcategories list
+// }

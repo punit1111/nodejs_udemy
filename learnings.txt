@@ -1,0 +1,2 @@
+auto geterate uuid for user
+enum data type for user type

@@ -1,40 +1,36 @@
-
-const Sequelize = require("sequelize");
+const DataTypes = require("sequelize").DataTypes;
 
 const sequelize = require("../utils/database");
 
 const product_specifications = sequelize.define({
   id: {
-    type: Sequelize.UUID,
+    type: DataTypes.UUID,
     primaryKey: true,
   },
   product_id: {
-    type: Sequelize.UUID,
+    type: DataTypes.UUID,
   },
   quantity: {
-    type: Sequelize.INTEGER,
+    type: DataTypes.INTEGER,
   },
   colors: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
+    type: DataTypes.JSON,
   },
   material_used: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
+    type: DataTypes.JSON,
   },
   warrenty: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
   },
   brand: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
   },
   features: {
-    type: Sequelize.ARRAY(Sequelize.STRING),
-  }
+    type: DataTypes.JSON,
+  },
 });
 
-
-module.exports = product_specifications;  
-
-
+module.exports = product_specifications;
 
 // Table ProductSpecifications {
 //     id string [primary key]
@@ -42,7 +38,7 @@ module.exports = product_specifications;
 //     quantity integer
 //     colors list
 //     material_used list
-//     warrenty varchar 
+//     warrenty varchar
 //     brand string [ref: - Brand.id]
 //     features list
 //   }
