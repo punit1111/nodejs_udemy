@@ -23,11 +23,11 @@ router.post(
   [
     body("email")
       .isEmail()
-      .withMessage("Please enter a valid email.") 
-      .normalizeEmail({ gmail_remove_dots: false }), 
+      .withMessage("Please enter a valid email.")
+      .normalizeEmail({ gmail_remove_dots: false }),
     body("password").trim().isLength({ min: 5 }),
   ],
-  authController.login 
+  authController.login
 );
 
-module.exports = router; 
+module.exports = router;

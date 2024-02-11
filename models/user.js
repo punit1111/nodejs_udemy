@@ -7,13 +7,9 @@ module.exports = sequelize.define("users", {
     type: DataTypes.UUID,
     //    allowNull: false,
     required: true,
-    primaryKey: true, 
-    defaultValue: DataTypes.UUIDV4  
+    primaryKey: true,
+    defaultValue: DataTypes.UUIDV4,
   },
-  phone: {
-    type: DataTypes.STRING, 
-    required: true, 
-  }, 
   email: {
     type: DataTypes.STRING,
     required: true,
@@ -27,25 +23,33 @@ module.exports = sequelize.define("users", {
     type: DataTypes.STRING,
     required: true,
   },
+  phone: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   status: {
     type: DataTypes.ENUM,
     defaultValue: "active",
-    values: ['active', 'pending', 'deleted'], 
+    values: ["active", "pending", "deleted"],
+    allowNull: true,
   },
   usertype: {
     type: DataTypes.ENUM,
     defaultValue: "active",
-    values: ['active', 'pending', 'deleted'], 
+    values: ["active", "pending", "deleted"],
+    allowNull: true,
   },
   addres: {
     type: DataTypes.JSON,
     default: {},
+    allowNull: true,
   },
   course_range: {
-    type: DataTypes.JSON, 
+    type: DataTypes.JSON,
     default: {},
+    allowNull: true,
   },
-  //posts: [{ type: Sequelize.STRING, ref: "Product" }], 
+  //posts: [{ type: Sequelize.STRING, ref: "Product" }],
 });
 
 // Table Users {

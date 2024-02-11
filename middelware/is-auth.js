@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const AppError = require("../utils/error_handler");
+const AppError = require("../error_handler/app_error");
 
 module.exports = (req, res, next) => {
   const authHeader = req.get("Authorization");
@@ -18,7 +18,7 @@ module.exports = (req, res, next) => {
   if (!decodedToken) {
     next(new AppError("Not authenticated."));
   }
-  console.log(`auth token ${req.userId}  ${decodedToken.userId}`); 
+  console.log(`auth token ${req.userId}  ${decodedToken.userId}`);
   req.userId = decodedToken.userId;
   next();
 };

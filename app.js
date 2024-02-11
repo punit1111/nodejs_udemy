@@ -8,11 +8,13 @@ const userRoutes = require("../nodejs_udemy/routes/user_routes");
 
 const authRoutes = require("../nodejs_udemy/routes/auth_routes");
 
-const sequelize = require("./utils/database"); 
+const sequelize = require("./utils/database");
 
 const path = require("path");
 
 const bodyParser = require("body-parser");
+
+const { errorHandler } = require("./error_handler/app_error");
 
 dotenv.config();
 
@@ -28,24 +30,26 @@ app.use("/product", productRoutes);
 
 app.use("/user", userRoutes);
 
-app.use("/auth", authRoutes);   
+app.use("/auth", authRoutes);
+
+app.use(errorHandler);
 
 app.all("*", (req, res, next) => {
-  console.log('header result error not found 404');
+  console.log("header result error not found 404");
   res.status(404).json({ message: "URL NOT FOUND" });
 });
 
-app.use((error, req, res, next) => {
-  console.log(error);
-  const status = error.statusCode || 500;
-  const message = error.message;
-  res
-    .status(status)
-    .json({ status: status, message: message, stack: error.stack });
-});
+// app.use((error, req, res, next) => {
+//   console.log(error);
+//   const status = error.statusCode || 500;
+//   const message = error.message;
+//   res
+//     .status(status)
+//     .json({ status: status, message: message, stack: error.stack });
+// });
 
 sequelize
-  .sync({ alter: true })  
+  .sync({ alter: true })
   .then((result) => {
     app.listen(3000);
     console.log(result);
@@ -53,5 +57,4 @@ sequelize
   })
   .catch((error) => {
     console.log(`sequelize error ${error}`);
-  }); 
- 
+  });

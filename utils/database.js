@@ -11,5 +11,5 @@ const sequelize = new Sequelize("flipcart", "root", "root", {
   dialect: "mysql",
   host: "localhost",
 });
- 
+
 module.exports = sequelize;

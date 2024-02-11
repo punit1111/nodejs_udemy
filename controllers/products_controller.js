@@ -1,16 +1,16 @@
 const Product = require("../models/product_model");
 const ProductCategory = require("../models/product_category_model");
 const uuid = require("uuid");
-const AppError = require("../utils/error_handler");
+const AppError = require("../error_handler/app_error");
+const StatusCodes = require("../error_handler/status_codes");
 
 exports.getProducts = (req, res, next) => {
-  console.log('get product called'); 
   try {
     Product.findAll().then((result) => {
       console.log(`all products ${result}`);
       res.send(result);
     });
-  } catch (error) { 
+  } catch (error) {
     next(error);
   }
 };
@@ -19,8 +19,9 @@ exports.addProduct = async (req, res, next) => {
   console.log(`Adding Products`);
   try {
     await Product.create({
-      id: uuid.v4(),
-      // title: req.body.title,
+      //id: uuid.v4(),
+      seller_id: req.userId,
+      title: req.body.title,
       description: req.body.description,
       image_url: req.body.image_url,
       cover_url: req.body.cover_url,
@@ -30,7 +31,7 @@ exports.addProduct = async (req, res, next) => {
       res.send(error);
     });
   } catch (error) {
-    throw error;
+    next(error);
   }
 };
 
@@ -60,11 +61,11 @@ exports.deleteProduct = async (req, res, next) => {
           next(new AppError(`Product was not found!`, 400));
         }
       }
-    );
+    ); 
   } catch (error) {
     console.log("catch error 2");
     //throw AppError(`Product was not found!`, 400);
-    next(AppError(`Product was not found!`, 400));
+    next(AppError(`Product was not found!`, StatusCodes.NOT_FOUND));
   }
 };
 

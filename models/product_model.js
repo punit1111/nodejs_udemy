@@ -4,12 +4,16 @@ const sequelize = require("../utils/database");
 
 const ProductCategory = require("../models/product_category_model");
 
-const Product = sequelize.define("products", { 
+const Product = sequelize.define("products", {
   id: {
     type: DataTypes.UUID,
-    primaryKey: true, 
+    primaryKey: true,
     allowNull: false,
-    defaultValue: DataTypes.UUIDV4
+    defaultValue: DataTypes.UUIDV4,
+  },
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   category_id: {
     type: DataTypes.UUID,
@@ -19,10 +23,7 @@ const Product = sequelize.define("products", {
     type: DataTypes.UUID,
     allowNull: true,
   },
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
+
   description: {
     type: DataTypes.STRING,
     allowNull: true,
