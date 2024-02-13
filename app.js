@@ -14,6 +14,10 @@ const path = require("path");
 
 const bodyParser = require("body-parser");
 
+const { graphqlHTTP } = require("express-graphql");
+const graphqlSchema = require("./graphql/schema");
+const graphqlResolver = require("./graphql/resolver");
+
 const { errorHandler } = require("./error_handler/app_error");
 
 dotenv.config();
@@ -31,6 +35,20 @@ app.use("/product", productRoutes);
 app.use("/user", userRoutes);
 
 app.use("/auth", authRoutes);
+
+// app.use("/abc", (req, res, next) => {
+//   res.json({"abc":"abc"});
+//   //next();
+// });
+
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    schema: graphqlSchema,
+    rootValue: graphqlResolver,
+    graphiql: true,
+  })
+);
 
 app.use(errorHandler);
 
