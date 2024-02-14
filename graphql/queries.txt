@@ -1,0 +1,14 @@
+
+
+query { login(email: "punit.mece@gmail.com", password:"123455"){
+    token
+    userId
+} }
+
+
+mutation { createUser(userInput: {email: "tetstt@test.com", name: "punit", password: "1234555666"
+    }){
+    _id
+    email
+    }
+}

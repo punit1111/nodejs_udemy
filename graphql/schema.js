@@ -9,22 +9,44 @@ module.exports = buildSchema(`
         password: String! 
         status: String!
     }
+
+    type AuthData {
+        token: String!
+        userId: String!
+    }
+
+    type Product {
+        name: String!
+    }
+
+    input ProductInputData {
+        id: String!
+    }
  
     input UserInputData {
         email: String!
         name: String!
-        passqord: String!
+        password: String!
     }
 
-    type RootMutation {
-        createUser(userInput: UserInputData): User! 
+    type RootQuery {
+        login(email: String!, password: String!): AuthData!
+        getProducts(id: String!): Product! 
     }
+
+    type RootMutation { 
+        createUser(userInput: UserInputData): User! 
+        createProduct(product: ProductInputData): Product! 
+    } 
 
     schema {
+        query: RootQuery
         mutation: RootMutation
     }
 
 `);
+
+
 
 // module.exports = buildSchema(`
 
