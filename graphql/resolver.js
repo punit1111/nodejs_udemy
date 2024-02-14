@@ -2,7 +2,8 @@ const bcrypt = require("bcrypt");
 
 const validator = require("validator");
 const jwt = require("jsonwebtoken");
-const User = require("../models/user"); 
+const User = require("../models/user");
+const Product = require("../models/product_model");
 
 module.exports = {
   createUser: async function ({ userInput }, req) {
@@ -14,7 +15,9 @@ module.exports = {
       validator.isEmpty(userInput.password) ||
       !validator.isLength(userInput.password, { min: 5 })
     ) {
-      errors.push({ message: `Passworddd too short ${userInput.password.length}` });
+      errors.push({
+        message: `Passworddd too short ${userInput.password.length}`,
+      });
     }
     if (errors.length > 0) {
       const error = new Error("Invalid input.");
@@ -46,7 +49,7 @@ module.exports = {
     }
     const isEqual = await bcrypt.compare(password, user.password);
     if (!isEqual) {
-      const error = new Error("Password is incorrect."); 
+      const error = new Error("Password is incorrect.");
       error.code = 401;
       throw error;
     }
@@ -56,6 +59,17 @@ module.exports = {
       { expiresIn: "1h" }
     );
     return { token: token, userId: user.id.toString() };
+  },
+  getUsers: async function ({ id }) {
+    try {
+      User.findAll().then((result) => {
+        console.log(`all products ${result}`);
+        return { data: result};
+      });
+    } catch (error) {
+      throw error;
+      //next(error);
+    }
   },
 };
 

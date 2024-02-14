@@ -1,15 +1,18 @@
 const { buildSchema } = require("graphql"); 
+const User = require('../controllers/user_controller');
+
+// type User {
+//     id: ID!
+//     name: String!
+//     email: String!
+//     password: String! 
+//     status: String!
+// }
+
 
 module.exports = buildSchema(`
 
-    type User {
-        _id: ID!
-        name: String!
-        email: String!
-        password: String! 
-        status: String!
-    }
-
+    
     type AuthData {
         token: String!
         userId: String!
@@ -31,7 +34,7 @@ module.exports = buildSchema(`
 
     type RootQuery {
         login(email: String!, password: String!): AuthData!
-        getProducts(id: String!): Product! 
+        getUsers(id: String!): ${User}!  
     }
 
     type RootMutation { 
