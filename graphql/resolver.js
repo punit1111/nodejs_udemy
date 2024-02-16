@@ -26,7 +26,9 @@ module.exports = {
       throw error;
     }
 
-    const existingUser = await User.findOne({ email: userInput.email });
+    const existingUser = await User.findOne({
+      where: { email: userInput.email },
+    });
     if (existingUser) {
       const error = new Error("User exists already");
       throw error;
@@ -38,10 +40,10 @@ module.exports = {
       password: hashedPw,
     });
     const createdUser = await user.save();
-    return { ...createdUser._doc, _id: createdUser._id.toString() };
+    return { ...createdUser._doc, id: createdUser.id.toString() };
   },
   login: async function ({ email, password }) {
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ where: { email: email } });
     if (!user) {
       const error = new Error("User not found.");
       error.code = 401;
@@ -60,15 +62,19 @@ module.exports = {
     );
     return { token: token, userId: user.id.toString() };
   },
-  getUsers: async function ({ id }) {
+  users: async function ({ id }) {
     try {
-      User.findAll().then((result) => {
-        console.log(`all products ${result}`);
-        return { data: {...result}}; 
-      });
-    } catch (error) { 
+      const userData = await User.findAll().then(
+        (result) => {
+          console.log(`getusers one ${result}`);
+          return result; 
+        }   
+      );
+
+      return userData; 
+    } catch (error) {
+      console.log("getusers one error");
       throw error;
-      //next(error);
     }
   },
 };

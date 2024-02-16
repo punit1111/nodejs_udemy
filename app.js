@@ -60,7 +60,8 @@ app.use(
     schema: graphqlSchema,
     rootValue: graphqlResolver,
     graphiql: true,
-    formatError(err) {
+    customFormatErrorFn(err) {
+      console.log(`getusers three ${err}`);
       if(!err.originalError){
         return err;
       }
