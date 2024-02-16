@@ -92,7 +92,11 @@ app.all("*", (req, res, next) => {
 sequelize
   .sync({ alter: true })
   .then((result) => {
-    app.listen(3000);
+    const server = app.listen(3000);
+    const io = require('socket.io')(server);
+    io.on('connection', socket => {
+      console.log(socket); 
+    });
     console.log(result);
     console.log(`database connected ${result} `);
   })
