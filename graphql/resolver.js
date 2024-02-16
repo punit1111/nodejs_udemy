@@ -64,9 +64,9 @@ module.exports = {
     try {
       User.findAll().then((result) => {
         console.log(`all products ${result}`);
-        return { data: result};
+        return { data: {...result}}; 
       });
-    } catch (error) {
+    } catch (error) { 
       throw error;
       //next(error);
     }
