@@ -2,7 +2,7 @@
   "name": "nodejs_udemy",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js"
@@ -27,11 +27,13 @@
     "graphql": "^16.8.1",
     "http": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.3.0",
     "mysql2": "^3.9.0",
     "nodemon": "^3.0.3",
     "sequelize": "^6.35.2",
     "sequelize-cli": "^6.6.2",
     "socket.io": "^4.7.4",
+    "typescript": "^5.3.3",
     "uuid": "^9.0.1",
     "validator": "^13.11.0"
   },
