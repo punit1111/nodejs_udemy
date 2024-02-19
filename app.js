@@ -10,7 +10,7 @@ const authRoutes = require("./routes/auth_routes");
 
 const sequelize = require("./utils/database");
 
-const mongoConnect = require("./utils/mongo_database").mongoConnect;
+//const mongoConnect = require("./utils/mongo_database").mongoConnect;
 
 const path = require("path");
 
@@ -82,31 +82,23 @@ app.all("*", (req, res, next) => {
   res.status(404).json({ message: "URL NOT FOUND" });
 });
 
-// app.use((error, req, res, next) => {
-//   console.log(error);
-//   const status = error.statusCode || 500;
-//   const message = error.message;
-//   res
-//     .status(status)
-//     .json({ status: status, message: message, stack: error.stack });
+
+sequelize
+  .sync({ alter: true })
+  .then((result) => {
+    const server = app.listen(3000);
+    // const io = require('socket.io')(server);
+    // io.on('connection', socket => {
+    //   console.log(socket);
+    // });
+    console.log(result);
+    console.log(`database connected ${result} `);
+  })
+  .catch((error) => {
+    console.log(`sequelize error ${error}`);
+  });
+
+// mongoConnect((client) => {
+//   console.log(client);
+//   app.listen(3000);
 // });
-
-// sequelize
-//   .sync({ alter: true })
-//   .then((result) => {
-//     const server = app.listen(3000);
-//     // const io = require('socket.io')(server);
-//     // io.on('connection', socket => {
-//     //   console.log(socket);
-//     // });
-//     console.log(result);
-//     console.log(`database connected ${result} `);
-//   })
-//   .catch((error) => {
-//     console.log(`sequelize error ${error}`);
-//   });
-
-mongoConnect((client) => {
-  console.log(client);
-  app.listen(3000);
-});
