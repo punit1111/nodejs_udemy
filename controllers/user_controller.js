@@ -79,7 +79,7 @@ exports.login = (req, res, next) => {
           },
           "somesecretkey",
           { expiresIn: "1h" }
-        );
+        ); 
         const resUser = loadedUser.get({ plain: true });
         delete resUser["password"];
         res.status(200).json({

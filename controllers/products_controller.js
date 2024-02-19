@@ -7,7 +7,7 @@ const StatusCodes = require("../error_handler/status_codes");
 exports.getProducts = (req, res, next) => {
   try {
     Product.findAll().then((result) => {
-      console.log(`all products ${result}`);
+      console.log(`all products ${result}`); 
       res.send(result);
     });
   } catch (error) {
