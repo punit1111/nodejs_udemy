@@ -16,20 +16,17 @@ exports.getProducts = (req, res, next) => {
 };
 
 exports.addProduct = async (req, res, next) => {
-  console.log(`Adding Products`);
+  console.log(`Adding Products ${req.body.title}`);
   try {
-    await Product.create({
+    await new Product(
       //id: uuid.v4(),
-      seller_id: req.userId,
-      title: req.body.title,
-      description: req.body.description,
-      image_url: req.body.image_url,
-      cover_url: req.body.cover_url,
-      price: 0.5,
-    }).then((error) => {
-      console.log(`Add Products }`);
-      res.send(error);
-    });
+      (seller_id = req.userId),
+      (title = req.body.title),
+      (description = req.body.description),
+      (image_url = req.body.image_url),
+      (cover_url = req.body.cover_url),
+      (price = 0.5)
+    ).save();
   } catch (error) {
     next(error);
   }
@@ -61,7 +58,7 @@ exports.deleteProduct = async (req, res, next) => {
           next(new AppError(`Product was not found!`, 400));
         }
       }
-    ); 
+    );
   } catch (error) {
     console.log("catch error 2");
     //throw AppError(`Product was not found!`, 400);

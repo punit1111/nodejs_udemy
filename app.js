@@ -2,13 +2,15 @@ const express = require("express");
 
 const dotenv = require("dotenv");
 
-const productRoutes = require("../nodejs_udemy/routes/products_routes");
+const productRoutes = require("./routes/products_routes");
 
-const userRoutes = require("../nodejs_udemy/routes/user_routes");
+const userRoutes = require("./routes/user_routes");
 
-const authRoutes = require("../nodejs_udemy/routes/auth_routes");
+const authRoutes = require("./routes/auth_routes");
 
 const sequelize = require("./utils/database");
+
+const mongoConnect = require("./utils/mongo_database").mongoConnect;
 
 const path = require("path");
 
@@ -41,19 +43,19 @@ app.use("/auth", authRoutes);
 //   //next();
 // });
 
-app.use((req, res, next)=>{
-  res.setHeader('Access-Control-Allow-Origin', '*');  
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
-    'Access-Control-Allow-Methods',
-    'OPTIONS, GET, POST, PATCH, DELETE'
+    "Access-Control-Allow-Methods",
+    "OPTIONS, GET, POST, PATCH, DELETE"
   );
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  if(req.method === 'OPTIONS'){
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  if (req.method === "OPTIONS") {
     return res.sendStatus(200);
-  } 
+  }
   next();
-})
- 
+});
+
 app.use(
   "/graphql",
   graphqlHTTP({
@@ -62,14 +64,14 @@ app.use(
     graphiql: true,
     customFormatErrorFn(err) {
       console.log(`getusers three ${err}`);
-      if(!err.originalError){
+      if (!err.originalError) {
         return err;
       }
       const data = err.originalError.data;
-      const message = err.message || 'An error occured.';
+      const message = err.message || "An error occured.";
       const code = err.originalError.code || 500;
-      return {message: message, status: code, data: data }
-    }
+      return { message: message, status: code, data: data };
+    },
   })
 );
 
@@ -89,17 +91,22 @@ app.all("*", (req, res, next) => {
 //     .json({ status: status, message: message, stack: error.stack });
 // });
 
-sequelize
-  .sync({ alter: true })
-  .then((result) => {
-    const server = app.listen(3000);
-    // const io = require('socket.io')(server);
-    // io.on('connection', socket => {
-    //   console.log(socket); 
-    // });
-    console.log(result);
-    console.log(`database connected ${result} `);
-  })
-  .catch((error) => {
-    console.log(`sequelize error ${error}`);
-  });
+// sequelize
+//   .sync({ alter: true })
+//   .then((result) => {
+//     const server = app.listen(3000);
+//     // const io = require('socket.io')(server);
+//     // io.on('connection', socket => {
+//     //   console.log(socket);
+//     // });
+//     console.log(result);
+//     console.log(`database connected ${result} `);
+//   })
+//   .catch((error) => {
+//     console.log(`sequelize error ${error}`);
+//   });
+
+mongoConnect((client) => {
+  console.log(client);
+  app.listen(3000);
+});
